@@ -1,0 +1,60 @@
+# ============================================================
+# Orbis — Configuración por defecto
+# ============================================================
+
+features:
+  detector: ORB            # ORB | SIFT
+  n_features: 1000         # máximo de keypoints a detectar
+
+  sift:
+    contrast_threshold: 0.04
+    edge_threshold: 10
+    sigma: 1.6
+
+  orb:
+    scale_factor: 1.2
+    n_levels: 8
+    edge_threshold: 31
+    patch_size: 31
+    fast_threshold: 20
+
+matching:
+  matcher: auto            # auto | bf | flann  (auto: bf-hamming para ORB, flann-l2 para SIFT)
+  ratio_test: 0.75         # umbral del ratio test de Lowe
+  cross_check: true        # exigir match mutuo
+  max_ratio_matches: 200   # tope de matches tras filtrado (para RANSAC)
+
+homography:
+  method: RANSAC           # RANSAC | LMEDS
+  ransac_threshold: 3.0    # píxeles
+  min_inliers: 10          # mínimo de inliers para aceptar la detección
+  max_iters: 2000
+
+pose:
+  use_intrinsics: true
+  # Si no se conoce la cámara, se aproxima K con la diagonal de la imagen.
+  # Si se conoce, descomenta y ajusta:
+  # camera_matrix:
+  #   fx: 800.0
+  #   fy: 800.0
+  #   cx: 320.0
+  #   cy: 240.0
+  # dist_coeffs: [0.0, 0.0, 0.0, 0.0, 0.0]
+  axis_length: 1.0         # longitud de los ejes 3D dibujados (en unidades del objeto)
+
+tracking:
+  enable: true
+  process_noise: 0.03      # Q
+  measurement_noise: 0.1   # R
+  max_frames_lost: 15      # frames sin detección antes de reiniciar el tracker
+
+visualization:
+  draw_matches: false      # dibujar matches (útil para debug/reporte)
+  draw_contour: true
+  draw_axes: true
+  draw_state: true         # mostrar estado del tracker (detectado / predicho / perdido)
+
+output:
+  save_video: true
+  fps: 30
+  codec: mp4v
